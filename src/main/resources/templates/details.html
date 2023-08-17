@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+
+      <div layout:fragment="siteContent">
+
+          <div class="container">
+            <h3 class="text-center text-danger" th:if="${!request.handled}">*** Новая необработанная заявка ***</h3>
+            <h3 class="text-center text-success" th:if="${request.handled}">Обработанная заявка</h3>
+          </div>
+
+          <div class="row">
+            <div class="col-7 mx-auto">
+              <form action="/change-request" method="post">
+
+                  <input type="hidden" name="id" th:value="${request.id}">
+                  <div class="row">
+                      <div class="col-12">
+                          <label>ФИО : </label>
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" readonly name="userName" required th:value="${request.userName}">
+                      </div>
+                  </div>
+
+                  <div class="row mt-3">
+                      <div class="col-12">
+                          <label>Курс : </label>
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" readonly name="courseName" required th:value="${request.courseName}">
+                      </div>
+                  </div>
+
+                  <div class="row mt-3">
+                      <div class="col-12">
+                          <label>Телефон : </label>
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" readonly name="phone" required th:value="${request.phone}">
+                      </div>
+                  </div>
+
+                  <div class="row mt-3">
+                      <div class="col-12">
+                          <label>Комментарии : </label>
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <textarea name="commentary" th:rows="5"
+                                    class="form-control"
+                                    placeholder="Комментарии ..."
+                                    th:value="${request.commentary}"
+                                    readonly th:text="${request.commentary}"></textarea>
+                      </div>
+                  </div>
+
+                  <div class="row mt-3">
+                      <div class="col-3" th:if="${!request.handled}">
+                          <input type="hidden" name="handled" th:value="true">
+                          <button class="btn btn-success">Обработать заявку</button>
+                      </div>
+
+                      <div class="col-6">
+                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Удалить заявку</button>
+                      </div>
+
+                  </div>
+
+              </form>
+
+                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" th:if = "${request!=null}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{'/delete-request'}" method="post">
+                                <input type="hidden" name="id" th:value="${request.id}">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтверждение</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3 class="text-center">Вы уверены?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                    <button class="btn btn-danger">Да</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+
+      </div>
+
+
+</html>
