@@ -32,5 +32,8 @@ public class ApplicationRequest {
     @Column(name = "handled")
     private boolean handled;
 
+    @ManyToOne
+    private Courses course;
+
 
 }

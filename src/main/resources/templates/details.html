@@ -35,7 +35,15 @@
 
                   <div class="row mt-2">
                       <div class="col-12">
-                          <input type="text" class="form-control" readonly name="courseName" required th:value="${request.courseName}">
+<!--                          <input type="text" class="form-control" readonly name="courseName" required th:value="${request.course}">-->
+                          <select class="form-select" name="course.id">
+                              <option th:each="crs : ${courses}"
+                                      th:text="${crs.name}"
+                                      th:selected="${request.course.id == crs.id}"
+                                      th:value="${crs.id}">
+
+                              </option>
+                          </select>
                       </div>
                   </div>
 

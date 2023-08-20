@@ -1,7 +1,9 @@
 package kz.bitlab.springsprinttask2.controller;
 
 import kz.bitlab.springsprinttask2.entities.ApplicationRequest;
+import kz.bitlab.springsprinttask2.entities.Courses;
 import kz.bitlab.springsprinttask2.repository.ApplicationRequestRepository;
+import kz.bitlab.springsprinttask2.repository.CoursesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import java.util.List;
 public class HomeController {
 
     private final ApplicationRequestRepository applicationRequestRepository;
+    private final CoursesRepository coursesRepository;
+
 
     @GetMapping(value = "/")
     public String indexPage(Model model) {
@@ -47,6 +51,9 @@ public class HomeController {
         ApplicationRequest applicationRequest = applicationRequestRepository.findById(id).orElse(null);
         model.addAttribute("request", applicationRequest);
 
+        List<Courses> coursesList = coursesRepository.findAll();
+        model.addAttribute("courses", coursesList);
+
         return "details";
     }
 
@@ -65,7 +72,10 @@ public class HomeController {
     }
 
     @GetMapping(value = "/add-request")
-    public String addRequest() {
+    public String addRequest(Model model) {
+        List<Courses> coursesList = coursesRepository.findAll();
+        model.addAttribute("courses", coursesList);
+
         return "add_request";
     }
 
